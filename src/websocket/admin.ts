@@ -23,22 +23,22 @@ io.on("connect", async (socket) => {
         await messagesService.create({
             text,
             user_id,
-            admin_id: socket.id
+            admin_id: socket.id,
         });
 
         const { socket_id } = await connectionsServices.findByUserId(user_id);
 
         io.to(socket_id).emit("admin_send_to_client", {
             text,
-            socket_id: socket.id
+            socket_id: socket.id,
         });
-    })
+    });
 
     socket.on("admin_user_in_support", async (params) => {
         const { user_id } = params;
-        await connectionsServices.updateAdminID(user_id, socket.id);        
+        await connectionsServices.updateAdminID(user_id, socket.id);
 
         const allConnectionWithoutAdmin = await connectionsServices.findAllWithoutAdmin();
         io.emit("admin_list_all_users", allConnectionWithoutAdmin);
-    })
+    });
 });

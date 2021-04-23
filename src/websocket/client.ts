@@ -66,12 +66,12 @@ io.on("connect", (socket: Socket) => {
 
         const message = await messagesService.create({
             text,
-            user_id
+            user_id,
         });
 
         io.to(socket_admin_id).emit("admin_receive_message", {
             message,
-            socket_id
+            socket_id,
         });
     });
 });
